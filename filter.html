@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        // Если URL содержит .html, перенаправляем на версию без .html
+        if (window.location.href.includes('.html')) {
+            const newUrl = window.location.href.replace('.html', '');
+            window.history.replaceState({}, '', newUrl);
+        }
+
+        async function fetchItem() {
+            const itemId = document.getElementById("item-id").value;
+            if (!itemId) {
+                alert("Введите ID!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8000/items/${itemId}`);
+                if (!response.ok) {
+                    throw new Error("Запись не найдена");
+                }
+                const data = await response.json();
+
+                // Форматируем данные в текстовый формат с префиксом только для ID
+                const formattedText = `
+ID: ${data.id}
+${data.Имя}
+${data.Фамилия}
+${data.Должность}
+${data.Описание}
+${data.Зарплата}
+                `.trim(); // Убираем лишние пробелы и переносы строк
+
+                // Выводим отформатированный текст
+                document.getElementById("result").innerText = formattedText;
+            } catch (error) {
+                document.getElementById("result").innerText = error.message;
+            }
+        }
+    </script>
+    <style>
+        /* Общие стили для всего документа */
+        body {
+            font-family: 'Roboto', 'Open Sans', sans-serif; /* Шрифт для всего документа */
+            margin: 0; /* Убираем внешние отступы */
+            padding: 0; /* Убираем внутренние отступы */
+            line-height: 1.6; /* Межстрочный интервал */
+            color: #333; /* Цвет текста */
+            background-color: #f5f5f5; /* Цвет фона */
+        }
+
+        /* Стили для шапки (Header) */
+        header {
+            background-color: #000; /* Цвет фона шапки */
+            color: white; /* Цвет текста в шапке */
+            padding: 10px 0; /* Внутренние отступы шапки */
+            position: fixed; /* Фиксированное позиционирование шапки */
+            top: 0; /* Привязка к верхнему краю */
+            left: 0; /* Привязка к левому краю */
+            width: 100%; /* Ширина на всю страницу */
+            z-index: 1000; /* Уровень слоя (чтобы шапка была поверх других элементов) */
+            font-family: 'Roboto', sans-serif; /* Шрифт для шапки */
+        }
+
+        /* Стили для навигационного меню */
+        nav ul {
+            list-style-type: none; /* Убираем маркеры списка */
+            margin: 0; /* Убираем внешние отступы */
+            padding: 0; /* Убираем внутренние отступы */
+            display: flex; /* Делаем меню горизонтальным */
+            justify-content: center; /* Выравниваем элементы по центру */
+        }
+
+        nav ul li {
+            margin: 0 10px; /* Отступы между элементами меню */
+        }
+
+        nav ul li a {
+            color: white; /* Цвет текста ссылок */
+            text-decoration: none; /* Убираем подчеркивание ссылок */
+            font-weight: bold; /* Жирный шрифт */
+            font-family: 'Roboto', sans-serif; /* Шрифт для ссылок */
+            border-bottom: none; /* Убираем нижнюю границу */
+        }
+
+        nav ul li a:hover {
+            text-decoration: none; /* Убираем подчеркивание при наведении */
+        }
+
+        /* Стили для шапки (дополнительные) */
+        .header-style {
+            color: #FFF; /* Цвет текста */
+            background-color: #000; /* Цвет фона */
+        }
+
+        .header-content {
+            display: flex; /* Гибкий контейнер для содержимого шапки */
+            align-items: center; /* Выравниваем элементы по центру */
+            padding: 0; /* Убираем внутренние отступы */
+        }
+
+        .header-content .logo {
+            width: auto; /* Автоматическая ширина логотипа */
+            margin-right: 5px; /* Отступ справа от логотипа */
+            margin-left: 30px; /* Отступ слева от логотипа */
+        }
+
+        .header-text {
+            flex: 1; /* Растягиваем текстовый блок на всю доступную ширину */
+        }
+
+        /* Стили для секции с фильтром */
+        section {
+            margin: 100px; /* Внешние отступы секции */
+            padding: 50px; /* Внутренние отступы секции */
+            background-color: #e8e8e8; /* Цвет фона секции */
+            border-radius: 10px; /* Закругленные углы */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень */
+        }
+
+        /* Стили для контейнера фильтра */
+        .filter-container {
+            display: flex; /* Гибкий контейнер */
+            flex-direction: column; /* Элементы располагаются вертикально */
+            gap: 20px; /* Расстояние между элементами */
+        }
+
+        /* Стили для элемента <pre> (вывод результата) */
+        pre {
+            background-color: #fff; /* Цвет фона */
+            padding: 10px; /* Внутренние отступы */
+            border-radius: 5px; /* Закругленные углы */
+            border: 2px solid #ccc; /* Граница */
+            overflow-x: auto; /* Горизонтальная прокрутка, если содержимое слишком широкое */
+            max-width: 100%; /* Ограничение ширины, чтобы не выходило за пределы контейнера */
+            white-space: pre-wrap; /* Перенос текста на новую строку */
+            word-wrap: break-word; /* Перенос длинных слов */
+            text-align: left; /* Выравнивание текста по левому краю */
+            font-size: 16px; /* Размер шрифта */
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column; /* Элементы шапки располагаются вертикально */
+                align-items: center; /* Выравнивание по центру */
+                text-align: center; /* Текст по центру */
+            }
+            .header-content .logo {
+                margin-right: 0; /* Убираем отступ справа */
+                margin-left: 0; /* Убираем отступ слева */
+                margin-bottom: 5px; /* Отступ снизу */
+            }
+
+            section {
+                margin: 20px; /* Уменьшаем отступы секции на мобильных устройствах */
+                padding: 15px; /* Уменьшаем внутренние отступы */
+            }
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фильтр по ID</title>
+</head>
+<body>
+<header class="programming-header header-style">
+    <div class="header-content" style="display: flex; align-items: center; position: fixed; z-index: 1000; width: 100%; background-color: #000; top: 0; padding: 10px 0; text-align: center;  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+        <img src="Logo.png" alt="Логотип" class="logo" style="height: 30px; width: auto;">
+        <nav style="flex-grow: 1; text-align: center;">
+            <ul style="list-style-type: none; padding: 0; margin: 0; display: inline-block;">
+                <li style="display: inline; margin-right: 15px;"><a href="/">Главная</a></li>
+                <li style="display: inline; margin-right: 15px;"><a href="/section2.html">Тестирование</a></li>
+                <li style="display: inline; margin-right: 15px;"><a href="/section3.html">Разработка</a></li>
+                <li style="display: inline; margin-right: 15px;"><a href="/section4.html">ДА</a></li>
+                <li style="display: inline; margin-right: 15px;"><a href="/filter.html">Фильтр</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<section>
+    <div class="filter-container">
+        <h2>Фильтр записей по ID</h2>
+            <p><strong>ID 1</strong> Шутенко Виталий<br>
+            <strong>ID 2</strong> Личные качества<br>
+            <strong>ID 3</strong> Общие навыки<br>
+            <strong>ID 4</strong> Опыт в тестировании<br>
+            <strong>ID 5</strong> Опыт в разработке</p>
+        <label for="item-id">Введите ID:</label>
+        <input type="number" id="item-id" required>
+        <button onclick="fetchItem()">Поиск</button>
+        <pre id="result"></pre>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,148 @@
+{
+  "info": {
+    "_postman_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "name": "Mysite API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET - Получить все записи",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/items",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items"]
+        }
+      }
+    },
+    {
+      "name": "GET - Получить запись по ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/items/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items", "1"]
+        }
+      }
+    },
+    {
+      "name": "POST - Добавить новую запись",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Имя\": \"Алексей\",\n  \"Фамилия\": \"Иванов\",\n  \"Должность\": \"Разработчик\",\n  \"Описание\": \"Специалист по разработке ПО\",\n  \"Зарплата\": 80000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/items",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items"]
+        }
+      }
+    },
+    {
+      "name": "PUT - Обновить запись по ID",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Имя\": \"Виталий\",\n  \"Фамилия\": \"Шутенко\",\n  \"Должность\": \"Старший тестировщик\",\n  \"Описание\": \"Специалист по тестированию. Область деятельности информационные технологии\",\n  \"Зарплата\": 60000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/items/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items", "1"]
+        }
+      }
+    },
+    {
+      "name": "PATCH - Частично обновить запись по ID",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Зарплата\": 70000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/items/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items", "1"]
+        }
+      }
+    },
+    {
+      "name": "DELETE - Удалить все записи",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/items",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items"]
+        }
+      }
+    },
+    {
+      "name": "DELETE - Удалить запись по ID",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/items/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items", "1"]
+        }
+      }
+    },
+    {
+      "name": "HEAD - Получить заголовки",
+      "request": {
+        "method": "HEAD",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/items",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["items"]
+        }
+      }
+    }
+  ]
+}
